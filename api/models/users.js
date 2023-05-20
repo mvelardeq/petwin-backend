@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose'
+import { Schema, model } from "mongoose";
 
 const UserSchema = new Schema({
   firstName: {
@@ -9,6 +9,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  state: {
+    type: Boolean,
+    default: true,
+  },
   birthDate: {
     type: Date,
   },
@@ -18,20 +22,25 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique:true
+    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
-  google:{
+  google: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  role:{
+  role: {
     type: String,
-    enum:['USER_ROLE', 'DBA_ROLE', 'ADMIN_ROLE', 'SUPERADIN_ROLE'], //client, admin, dba
-  }
+    enum: ["USER_ROLE", "DBA_ROLE", "ADMIN_ROLE", "SUPERADIN_ROLE"], //client, admin, dba
+  },
 });
 
-export const User = model('User', UserSchema)
+UserSchema.methods.toJSON = function () {
+  const { __v, password, ...user } = this.toObject();
+  return user;
+};
+
+export const User = model("User", UserSchema);
