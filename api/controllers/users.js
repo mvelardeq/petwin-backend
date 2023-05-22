@@ -20,6 +20,7 @@ const getItems = async (req, res) => {
 
   const pages = Math.ceil(total / limit);
   res.send({
+    greetings: "hello",
     pagination: {
       last_visable_page: pages,
       has_next_page: pages > page,
