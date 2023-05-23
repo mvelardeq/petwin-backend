@@ -1,6 +1,5 @@
 import { body, check, query } from "express-validator";
 
-import { fieldsValidation } from "../middlewares/fieldsValidations.js";
 import {
   dbEmailValidator,
   dbIdValidator,
@@ -8,6 +7,13 @@ import {
   dbUpdateEmailValidator,
   isFieldANumber,
 } from "../helpers/db-validators.js";
+
+import {
+  validateJWT,
+  fieldsValidation,
+  hasPermissionRole,
+  isAdminRole,
+} from "../middlewares/index.js";
 
 export const createUserValidations = [
   body("firstName", "firstName is required!").not().isEmpty(),
@@ -37,6 +43,9 @@ export const getUsersValidations = [
 ];
 
 export const deleteUSerValisations = [
+  validateJWT,
+  isAdminRole,
+  hasPermissionRole("ADMIN_ROLE", "SUPERADMIN_ROLE"),
   check("id", "No es un id válido").isMongoId(),
   check("id").custom(dbIdValidator),
   fieldsValidation,

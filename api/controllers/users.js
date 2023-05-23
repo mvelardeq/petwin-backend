@@ -63,9 +63,11 @@ const updateItem = async (req, res) => {
 const deleteItem = async (req, res) => {
   const { id } = req.params;
 
-  await User.findByIdAndUpdate(id, { state: false });
+  const userAuthenticated = req.user;
 
-  res.send("user was deleted successfully");
+  const user = await User.findByIdAndUpdate(id, { state: false });
+
+  res.send(user);
 };
 
 export { getItem, getItems, createItem, updateItem, deleteItem };
