@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: petwin
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGODB_CONN=$MONGODB_CONN
+      - MONGODB_NAME=$MONGODB_NAME
+      - SECRETORPUBLICKEY=$SECRETORPUBLICKEY
+      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+      - GOOGLE_SECRET_ID=$GOOGLE_SECRET_ID
+    ports:
+      - "4000:3000"
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - nginx-network
