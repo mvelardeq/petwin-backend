@@ -7,7 +7,6 @@ const UserSchema = new Schema({
   },
   lastName: {
     type: String,
-    required: true,
   },
   state: {
     type: Boolean,
@@ -34,6 +33,7 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
+    default: "USER_ROLE",
     enum: ["USER_ROLE", "DBA_ROLE", "ADMIN_ROLE", "SUPERADIN_ROLE"], //client, admin, dba
   },
 });
