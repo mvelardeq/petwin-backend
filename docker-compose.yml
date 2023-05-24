@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  nodejs:
+  petwin:
     build:
       context: .
       dockerfile: Dockerfile
-    image: nodejs
+    image: petwin
     container_name: petwin
     restart: unless-stopped
     env_file: .env
@@ -21,4 +21,26 @@ services:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
     networks:
-      - nginx-network
+      - app-network
+    # command: ./wait-for.sh db:27017 -- /home/node/app/node_modules/.bin/nodemon app.js
+
+  # db:
+  #   image: mongo:4.1.8-xenial
+  #   container_name: db
+  #   restart: unless-stopped
+  #   env_file: .env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+  #     - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+  #   volumes:     
+  #     - dbdata:/data/db
+  #   networks:
+  #     - app-network  
+
+networks:
+  default:
+    external: true
+    name: nginx-network
+
+volumes:
+  node_modules:
