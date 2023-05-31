@@ -20,11 +20,10 @@ services:
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
-
+volumes:
+  node_modules:
 networks:
   default:
     external: true
     name: nginx-network
 
-volumes:
-  node_modules:
